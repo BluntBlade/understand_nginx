@@ -1,9 +1,14 @@
-# 解码Nginx：内存池  
+# 解码Nginx：内存池（Memory Pool）  
 
 梁涛（@无锋之刃）  
-2012-11-17 ~ 2012-11-18  
+2012-11-17 ~ 2012-11-25  
 
 nginx-1.2.5  
+
+## 源码文件  
+
+src/core/ngx_palloc.h  
+src/core/ngx_palloc.c  
 
 ## 背景  
 

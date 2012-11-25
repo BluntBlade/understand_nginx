@@ -1,9 +1,14 @@
-# 解码Nginx：数组  
+# 解码Nginx：数组（Array）  
 
 梁涛（@无锋之刃）  
-2012-11-24  
+2012-11-24 ~ 2012-11-25  
 
 nginx-1.2.5  
+
+## 源码文件  
+
+src/core/ngx_array.h  
+src/core/ngx_array.c  
 
 ## 设计思路  
 
@@ -69,7 +74,7 @@ nginx-1.2.5
                |                   |   V
                +-------------------+  ---
 
-## 数组接口函数  
+## 接口函数  
 
 ### ngx_array_create(pool, n, size)  
 
