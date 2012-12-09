@@ -13,8 +13,11 @@ src/core/ngx_queue.c
 
 ## 设计思路  
 
-Nginx提供一个非常简单的双向队列（双向链表），可通过适当手法将每个数据结构对象中嵌入链接结点。  
-通过使用额外的哨兵结点，简化了操作。  
+Nginx提供一个非常简单的侵入式双向队列（双向链表），也即向每个元素嵌入数据结构的链接结点。这样做的好处在于：  
+1. 省去对数据结构所用内存的管理，进一步减少内存碎片；  
+2. 降低代码复杂度。  
+
+另外，通过使用额外的哨兵结点机制，简化了代码。  
 
 ## 数据结构  
 
@@ -43,7 +46,7 @@ Nginx提供一个非常简单的双向队列（双向链表），可通过适当
 以h结点为哨兵的队列称之为h队列。  
 
 双向队列的各个操作都很简单，函数名即操作意图：  
-1. ngx_queue_init(q)初始化哨兵结点，令prev字段和next字段均指向自身；  
+1. ngx_queue_init(q)初始化哨兵结点，令prev字段和next字段均指向其自身；  
 2. ngx_queue_empty(q)检查哨兵结点的prev字段是否指向其自身，以判断队列是否为空；  
 3. ngx_queue_insert_head(h, x)在哨兵结点和第一个结点之间插入新结点x；  
 4. ngx_queue_insert_after(h, x)是ngx_queue_insert_head的别名；  
@@ -54,7 +57,7 @@ Nginx提供一个非常简单的双向队列（双向链表），可通过适当
 9. ngx_queue_next(q)获取下一个结点；  
 10. ngx_queue_prev(q)获取上一个结点；  
 11. ngx_queue_remove(x)将结点x从队列中移除；  
-12. ngx_queue_split(h, q, n)将h为哨兵结点的队列中q结点开始到队尾结点的整个链拆分、链接到空的n队列中，h队列中的剩余结节组成新队列；  
+12. ngx_queue_split(h, q, n)将h为哨兵结点的队列中q结点开始到队尾结点的整个链拆分、链接到空的n队列中，h队列中的剩余结点组成新队列；  
 13. ngx_queue_add(h, n)将n队列中的所有结点按顺序链接到h队列末尾，n队列清空；  
-14. ngx_queue_middle(queue)使用双倍步进算法寻找queue队列的中间结节；  
+14. ngx_queue_middle(queue)使用双倍步进算法寻找queue队列的中间结点；  
 15. ngx_queue_sort(queue, cmd)使用插入排序算法对queue队列进行排序，完成后在next方向上为升序，prev方向为降序。  
